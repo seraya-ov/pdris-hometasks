@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
-public class TestController {
+public class AuthenticationController {
 
     private final UserService userService;
     private final AuthenticationAudit authenticationAudit;
 
-    public TestController(UserService userService, AuthenticationAudit authenticationAudit) {
+    public AuthenticationController(UserService userService, AuthenticationAudit authenticationAudit) {
         this.userService = userService;
         this.authenticationAudit = authenticationAudit;
     }
