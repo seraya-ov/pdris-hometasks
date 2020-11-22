@@ -15,7 +15,7 @@ public class AppConfig {
     }
 
     @Bean
-    HashMap<String, String> authAudit() {
+    HashMap<Long, String> authAudit() {
         return new HashMap<>();
     }
 }

@@ -4,24 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 
 @Service
 public class AuthenticationAudit {
 
-    private final HashMap<String, String> authenticationAudit;
+    private final HashMap<Long, String> authenticationAudit;
 
     @Autowired
-    public AuthenticationAudit(@Qualifier("authAudit") HashMap<String, String> authenticationAudit) {
+    public AuthenticationAudit(@Qualifier("authAudit") HashMap<Long, String> authenticationAudit) {
         this.authenticationAudit = authenticationAudit;
     }
 
     public void addInfo(String username, String authLog) {
-        authenticationAudit.put(username, authLog);
+        authenticationAudit.put(System.currentTimeMillis(), username + ": " + authLog);
     }
 
-    public HashMap<String, String> getAuthenticationAudit() {
+    public HashMap<Long, String> getAuthenticationAudit() {
         return authenticationAudit;
     }
 }

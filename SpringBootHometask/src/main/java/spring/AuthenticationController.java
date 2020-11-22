@@ -5,8 +5,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.objects.User;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/")
@@ -30,9 +30,13 @@ public class AuthenticationController {
                 "    <title>Audit Page</title>\n" +
                 "</head>\n" +
                 "<body>");
-        HashMap<String, String> data = authenticationAudit.getAuthenticationAudit();
-        for (String key : data.keySet()) {
-            log.append("<div>").append(key).append(": ").append(data.get(key)).append("</div>");
+        HashMap<Long, String> data = authenticationAudit.getAuthenticationAudit();
+        Object[] keys = data.keySet().toArray();
+        Arrays.sort(keys);
+        for (Object key : keys) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+            Date date = new Date((Long)key);
+            log.append("<div>").append(formatter.format(date)).append(": ").append(data.get(key)).append("</div>");
         }
         log.append(
                 "</body>\n" +
