@@ -20,17 +20,24 @@ public class AuthenticationController {
         this.authenticationAudit = authenticationAudit;
     }
 
-    public AuthenticationAudit getAuthenticationAudit() {
-        return authenticationAudit;
-    }
-
+    @GetMapping("/audit")
     public String getAuthenticationAuditLog() {
-        StringBuilder log = new StringBuilder();
+        StringBuilder log = new StringBuilder(
+                "<!DOCTYPE html>\n" +
+                "<html xmlns:th=\"http://www.thymeleaf.org\" lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Audit Page</title>\n" +
+                "</head>\n" +
+                "<body>");
         HashMap<String, String> data = authenticationAudit.getAuthenticationAudit();
         for (String key : data.keySet()) {
-            log.append("\n").append(key).append(": ").append(data.get(key));
+            log.append("<div>").append(key).append(": ").append(data.get(key)).append("</div>");
         }
-        return log.substring(1);
+        log.append(
+                "</body>\n" +
+                "</html>");
+        return log.toString();
     }
 
     @GetMapping({"/", "login"})

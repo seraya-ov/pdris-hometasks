@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Page</title>
+</head>
+<body>
+<h3>Register</h3>
+<p><span th:text="${#request.getParameter('error')}" style="color: red"></span></p>
+<form action="register" method="post">
+    <strong>Username</strong>:<input type="text" name="username"><br>
+    <strong>Password</strong>:<input type="password" name="password"><br>
+    <input type="submit" value="Submit">
+</form>
+<br>
+<a href="login">Login</a>.
+</body>
+</html>
