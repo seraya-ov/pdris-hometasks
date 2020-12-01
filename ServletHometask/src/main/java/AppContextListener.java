@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
@@ -28,10 +29,12 @@ public class AppContextListener implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         Connection con = (Connection) servletContextEvent.getServletContext().getAttribute("DBConnection");
-        try {
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
     }
 

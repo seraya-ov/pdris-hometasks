@@ -1,8 +1,5 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -25,24 +22,14 @@ public class RegisterServlet extends HttpServlet {
                     "<font color=red>" + errorMsg + "</font>",
                     "/register.html");
         } else {
-            Connection con = (Connection) getServletContext().getAttribute("DBConnection");
-            PreparedStatement insert_ps = null;
-            PreparedStatement check_ps = null;
+            UserDBRequester userDBRequester = new UserDBRequester(getServletContext());
             try {
-                check_ps = con.prepareStatement("select * from userdb.users where username=?");
-                check_ps.setString(1, username);
-                ResultSet rs = check_ps.executeQuery();
-
-                if (rs != null && rs.next()) {
+                if (userDBRequester.userExists(username)) {
                     formResponse(request, response,
                             "<font color=red>User " + username + " already exists!</font>",
                             "/register.html");
                 } else {
-                    insert_ps = con.prepareStatement("insert into userdb.users(username, password) values (?,?)");
-                    insert_ps.setString(1, username);
-                    insert_ps.setString(2, password);
-
-                    insert_ps.execute();
+                    userDBRequester.addUser(username, password);
 
                     formResponse(request, response,
                             "<font color=green>Registration successful, please login below.</font>",
@@ -53,14 +40,10 @@ public class RegisterServlet extends HttpServlet {
                 throw new ServletException("DB Connection problem.");
             } finally {
                 try {
-                    if (check_ps != null) {
-                        check_ps.close();
-                    }
-                    if (insert_ps != null) {
-                        insert_ps.close();
-                    }
-                } catch (Exception e) {
+                    userDBRequester.close();
+                } catch (SQLException e) {
                     e.printStackTrace();
+                    throw new ServletException("DB Connection problem.");
                 }
             }
         }
