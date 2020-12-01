@@ -30,7 +30,6 @@ public class RegisterServlet extends HttpServlet {
                             "/register.html");
                 } else {
                     userDBRequester.addUser(username, password);
-
                     formResponse(request, response,
                             "<font color=green>Registration successful, please login below.</font>",
                             "/login.html");

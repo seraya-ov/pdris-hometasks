@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
@@ -24,6 +23,7 @@ public class AppContextListener implements ServletContextListener {
             ctx.setAttribute("DBConnection", connection);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("DB Connection problem.");
         }
     }
 
@@ -32,8 +32,9 @@ public class AppContextListener implements ServletContextListener {
         if (con != null) {
             try {
                 con.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("DB Connection problem.");
             }
         }
     }

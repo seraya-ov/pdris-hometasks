@@ -15,7 +15,7 @@ public class UserDBRequester {
         preparedStatements = new ArrayList<>();
     }
 
-    private ResultSet checkForUser(String username) throws SQLException {
+    private ResultSet getUser(String username) throws SQLException {
         PreparedStatement checkPs = this.connection.prepareStatement("select * from userdb.users where username=? limit 1");
         checkPs.setString(1, username);
         this.preparedStatements.add(checkPs);
@@ -24,12 +24,12 @@ public class UserDBRequester {
     }
 
     public boolean userExists(String username) throws SQLException {
-        ResultSet rs = checkForUser(username);
+        ResultSet rs = getUser(username);
         return (rs != null && rs.next());
     }
 
     public String getPassword(String username) throws SQLException {
-        ResultSet rs = checkForUser(username);
+        ResultSet rs = getUser(username);
         if (rs != null && rs.next()) {
             return rs.getString("password");
         }
