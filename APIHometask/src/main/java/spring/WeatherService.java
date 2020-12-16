@@ -16,7 +16,8 @@ import spring.entities.Weather;
 import spring.repositories.WeatherRepository;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -39,10 +40,15 @@ public class WeatherService {
 
 
     public ArrayList<Weather> getWeatherHistory(String city, int days) throws IOException {
-        LocalDate today = LocalDate.now();
+        LocalDateTime today = LocalDateTime.now();
+
+        if (today.getHour() < 13) {
+            today = today.minusDays(1);
+        }
+
         ArrayList<Weather> weatherHistory = new ArrayList<>();
         for (int d = 0; d < Math.min(days, 8); ++d) {
-            LocalDate from = today.minusDays(d);
+            LocalDateTime from = today.minusDays(d);
             try {
                 Weather weather = getWeather(city, from);
                 if (weather != null) {
@@ -56,8 +62,8 @@ public class WeatherService {
         return weatherHistory;
     }
 
-    public Weather getWeather(String city, LocalDate from) {
-        String date = from.toString();
+    public Weather getWeather(String city, LocalDateTime from) {
+        String date = from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Optional<Weather> optionalWeather = repository.getWeatherByCityAndTime(city, date);
 
         if (optionalWeather.isPresent()) {
@@ -72,6 +78,7 @@ public class WeatherService {
             ResponseEntity<String> response = this.restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 String body = response.getBody();
+                System.out.println(body);
                 if (body == null) {
                     return null;
                 }

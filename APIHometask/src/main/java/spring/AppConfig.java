@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import spring.deserializers.CurrencyXmlDeserializer;
 import spring.deserializers.WeatherJsonDeserializer;
-import spring.entities.Weather;
 
 @Configuration
 public class AppConfig {
