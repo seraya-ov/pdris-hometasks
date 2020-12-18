@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "0024090d-4b4b-4f27-a1da-f76c6d717a69",
+		"name": "APIHometaskTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CurrencyPredictTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get currency prediction test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/currency/predict",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"currency",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherPredictTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather prediction test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/predict",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherHistoryTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history random parameters test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body parameter test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('h3').text()).to.eql(\"Weather History: \" + pm.request.url.path[1].split('%20').join(\" \"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/:city/:days",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						":city",
+						":days"
+					],
+					"variable": [
+						{
+							"key": "city",
+							"value": "{{$randomCity}}"
+						},
+						{
+							"key": "days",
+							"value": "{{$randomInt}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherHIstoryOnlyCityTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body parameter test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('h3').text()).to.eql(\"Weather History: \" + pm.request.url.path[1].split('%20').join(\" \"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/:city",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						":city"
+					],
+					"variable": [
+						{
+							"key": "city",
+							"value": "{{$randomCity}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CurrencyHistoryTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history random parameters test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(Math.min(31, 1 + parseInt(pm.request.url.path[1].toString())));\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/currency/:days",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"currency",
+						":days"
+					],
+					"variable": [
+						{
+							"key": "days",
+							"value": "{{$randomInt}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherHistoryOnlyDaysTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body parameter test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('h3').text()).to.eql(\"Weather History: Moscow\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(Math.min(9, 1 + parseInt(pm.request.url.path[1].toString())));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/:days",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						":days"
+					],
+					"variable": [
+						{
+							"key": "days",
+							"value": "{{$randomInt}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherHistoryDefaultTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body parameter test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('h3').text()).to.eql(\"Weather History: Moscow\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CurrencyHistoryDefaultTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get weather history random parameters test\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data is loaded correctly test\", function() {\r",
+							"    const $ = cheerio.load(responseBody);\r",
+							"    pm.expect($('tr').length).to.eql(2);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/currency/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"currency",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
